@@ -2,9 +2,20 @@
 name = "ccgen"
 description = "Simple C code generator for enums."
 version = "0.1.1"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+]
+authors = [
+    {name = "Bozhidar Stoyanov"},
+]
+requires-python = ">=3.10"
 
 [dependencies]
 strictyaml = ">=1.6.1"
 
 [dev-dependencies]
 black = ">=22.3.0"
+
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
