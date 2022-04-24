@@ -1,0 +1,7 @@
+[project]
+name = "ccgen"
+description = "Simple C code generator for enums."
+version = "0.1.0"
+
+[build-system]
+requires = ["wheel", "setuptools", "strictyaml>=1.6.1"]
