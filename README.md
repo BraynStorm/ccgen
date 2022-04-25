@@ -19,7 +19,62 @@ Set your CMake Module Path like this:
 -DCMAKE_MODULE_PATH=%LOCALAPPDATA%\Python\PythonXXX\Lib\site-packages\ccgen\share\cmake
 ```
 on Windows or the equivalent on your operating system.
-## Examples (Manual)
+## Example CMake project
+See the examples/ folder for full examples.
+
+### Structure
+```
+myproject
+|   CMakeLists.txt
+|   enums.ccgen.yaml
+|   main.c
+```
+
+### enums.ccgen.yaml
+```yaml
+enums:
+    MyEnum:
+        attributes:
+            - to_string
+        items:
+            - Alpha
+            - Beta
+            - Gamma
+```
+
+### CMakeLists.txt
+```cmake
+cmake_minimum_required(VERSION 3.15)
+
+project(MyProject)
+
+include(ccgen)
+
+# Important: Name your YAML files *.ccgen.yaml
+add_executable(my_exec main.c enums.ccgen.yaml)
+ccgen(my_exec)
+```
+
+### main.c
+```c
+#include <stdio.h>
+
+#include "enums.ccgen.h"
+
+int main(int argc, char* argv[])
+{
+    puts(MyEnum_GetName(MyEnum_Alpha));
+    return 0;
+}
+```
+
+### Output
+```
+Alpha
+
+```
+
+## Examples
 ### Input
 ```yaml
 enums:

@@ -1,0 +1,8 @@
+enums:
+  MyEnum:
+    attributes:
+      - to_string
+    items:
+      - Alpha
+      - Beta
+      - Gamma
