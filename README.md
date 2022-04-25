@@ -14,11 +14,13 @@ pip install -U git+https://github.com/BraynStorm/ccgen
 ```
 
 ## Usage
-Set your CMake Module Path like this:
+Use the following snippet in your top-level CMakeLists.txt
+```cmake
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+execute_process(COMMAND ${Python3_EXECUTABLE} -m ccgen.cmake OUTPUT_VARIABLE CCGEN_CMAKE OUTPUT_STRIP_TRAILING_WHITESPACE)
+list(APPEND CMAKE_MODULE_PATH "${CCGEN_CMAKE}")
+include(ccgen)
 ```
--DCMAKE_MODULE_PATH=%LOCALAPPDATA%\Python\PythonXXX\Lib\site-packages\ccgen\share\cmake
-```
-on Windows or the equivalent on your operating system.
 ## Example CMake project
 See the examples/ folder for full examples.
 
@@ -44,10 +46,13 @@ enums:
 
 ### CMakeLists.txt
 ```cmake
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.23)
 
 project(MyProject)
 
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+execute_process(COMMAND ${Python3_EXECUTABLE} -m ccgen.cmake OUTPUT_VARIABLE CCGEN_CMAKE OUTPUT_STRIP_TRAILING_WHITESPACE)
+list(APPEND CMAKE_MODULE_PATH "${CCGEN_CMAKE}")
 include(ccgen)
 
 # Important: Name your YAML files *.ccgen.yaml
