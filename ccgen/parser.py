@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+import enum
+from sys import stderr
 from typing import Iterable, List
 
 from strictyaml import YAML
@@ -18,12 +20,20 @@ class YAMLParser:
             e = Enum(str(enum_name), {})
             self.enums.append(e)
 
-            attributes = self.visit_attributes(enum_def["attributes"])
-            for attr in attributes:
-                f = getattr(self, f"process_enum_attribute_{attr}")
-                f(e)
+            if 'attributes' in enum_def:
+                attributes = self.visit_attributes(enum_def["attributes"])
+                for attr in attributes:
+                    f = getattr(self, f"process_enum_attribute_{attr}")
+                    f(e)
 
-            items = self.visit_items(enum_def["items"], e)
+            if enum_def.is_sequence():
+                yaml_items = enum_def
+            elif 'items' in enum_def:
+                yaml_items = enum_def["items"]
+            else:
+                print("Enums without items/values are not permitted.")
+
+            items = self.visit_items(yaml_items, e)
             e.items = items
 
     def process_enum_attribute_bits(self, enum: Enum):

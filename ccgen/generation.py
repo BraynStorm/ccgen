@@ -27,6 +27,14 @@ class CodeGenerator:
             for name, value in enum.items.items():
                 arr += f'    "{name}",\n'
             arr += "};\n"
+
+            maximum = max(enum.items.values())
+            minimum = min(enum.items.values())
+
             self.header.append(f"{decl};")
             self.source.append(arr)
-            self.source.append(f"{decl}\n{{\n    return {array_name}[e];\n}}")
+            self.source.append(f"{decl}\n{{")
+            self.source.append(f"    int index = e - {minimum};")
+            self.source.append(f"    assert(e >= {minimum} && e <= {maximum});")
+            self.source.append(f"    return {array_name}[index];")
+            self.source.append(f"}}")

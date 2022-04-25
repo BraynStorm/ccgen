@@ -8,7 +8,7 @@ Attributes = NewType('Attributes', Set[Attribute])
 @dataclass
 class Enum:
     name: str
-    items: Dict[str, Optional[int]] = field(default_factory=dict)
+    items: Dict[str, int] = field(default_factory=dict)
 
     is_bits: bool = False
     is_stringable: bool = False

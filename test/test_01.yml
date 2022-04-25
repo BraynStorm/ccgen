@@ -1,4 +1,11 @@
 enums:
+  Test0:
+    - Head
+ 
+  Test1:
+    items:
+      - Head
+      
   ItemType:
     attributes:
       - bits
