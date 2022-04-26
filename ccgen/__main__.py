@@ -21,22 +21,27 @@ def parse(src_yml: str):
 
 
 def parse_file(src: Path, dst: Path):
-    codegen = parse(src.open("r").read())
     name = str(src.stem)
 
     if not dst.exists():
         name = dst.stem
 
-    with open(dst / (name + ".h"), "w") as header:
+    codegen = parse(src.read_text())
+
+    h_path = dst / (name + ".h")
+    c_path = dst / (name + ".c")
+
+    with open(h_path, "w") as header:
         import uuid
 
-        u = "_header_" + str(uuid.uuid4()).replace("-", "_")
+        u = name.replace(".", "_") + "_" + str(uuid.uuid4()).replace("-", "_")
         header.write(f"#ifndef {u}\n")
         header.write(f"#define {u}\n")
         header.write("\n".join(codegen.header))
         header.write(f"\n#endif\n")
 
-    with open(dst / (name + ".c"), "w") as source:
+    with open(c_path, "w") as source:
+        source.write(f'#include "{h_path.name}"\n')
         source.write("\n".join(codegen.source))
     return
 

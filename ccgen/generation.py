@@ -9,6 +9,10 @@ class CodeGenerator:
     header: List[str] = field(default_factory=list)
     source: List[str] = field(default_factory=list)
 
+    def __post_init__(self):
+        self.source.append("#include <assert.h>")
+        self.source.append("")
+
     def generate_enum(self, enum: Enum):
         e = f"enum {enum.name}\n{{\n"
         for name, value in enum.items.items():
